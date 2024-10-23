@@ -65,7 +65,7 @@ const WebcamCapture = () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: "user", // Request the front camera (selfie camera)
+          facingMode: "environment", // Request the front camera (selfie camera)
         },
       });
       if (videoRef.current) {
