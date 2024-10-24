@@ -56,10 +56,33 @@ const WebcamCapture = () => {
 
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const [isFlashLightOn, setIsFlashLighOn] = useState<boolean>(false);
+  const [torchSupported, setTorchSupported] = useState<boolean>(false);
+
 
   useEffect(() => {
     startWebcam();
   }, []);
+
+  useEffect(() => {
+    swtichTorch(isFlashLightOn);
+  }, [isFlashLightOn]);
+
+  const swtichTorch = async (on = false) => {
+    if (mediaStream && navigator?.mediaDevices) {
+      const supportedContraints = navigator?.mediaDevices?.getSupportedConstraints();
+      const [track] = mediaStream?.getTracks();
+      if (supportedContraints && "torch" in supportedContraints && track) {
+        try {
+          await track.applyConstraints({advanced: [{torch: on }]} as MediaTrackConstraintSet);
+          return true;
+        } catch {
+          return false;
+        }
+      }
+    }
+    return false;
+  }
 
   const startWebcam = async () => {
     try {
@@ -72,6 +95,7 @@ const WebcamCapture = () => {
         videoRef.current.srcObject = stream;
       }
       setMediaStream(stream);
+      swtichTorch(false).then((success) => setTorchSupported(success));
     } catch (error) {
       console.error("Error accessing webcam", error);
     }
@@ -121,6 +145,10 @@ const WebcamCapture = () => {
     setCapturedImage(null); // Reset captured image
   };
 
+  const toggleTorch = (event: any) => {
+    setIsFlashLighOn(flashLight => !flashLight);
+  }
+
   return (
     <WebcamContainer>
       {capturedImage ? (
@@ -134,6 +162,12 @@ const WebcamCapture = () => {
           <WebcamCanvas ref={canvasRef} />
           {!videoRef.current ? (
             <>
+              <WebcamButton
+                onClick={toggleTorch}
+                style={{ backgroundColor: "#333", color: "#fff" }}
+              >
+                {isFlashLightOn? "Torch Off" : "Torch On" }
+              </WebcamButton>
               <WebcamButton
                 onClick={startWebcam}
                 style={{ backgroundColor: "#333", color: "#fff" }}
