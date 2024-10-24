@@ -90,7 +90,7 @@ const WebcamCapture = () => {
       const [track] = mediaStream?.getTracks();
       if (supportedContraints && "torch" in supportedContraints && track) {
         try {
-          await track.applyConstraints({advanced: [{torch: on }]} as MediaTrackConstraintSet);
+          await track.applyConstraints({ advanced: [{ torch: on }] } as MediaTrackConstraintSet);
           return true;
         } catch {
           return false;
@@ -178,12 +178,6 @@ const WebcamCapture = () => {
           <WebcamCanvas ref={canvasRef} />
           {!videoRef.current ? (
             <>
-              <WebcamTorchButton
-                onClick={toggleTorch}
-                style={{ backgroundColor: "#333", color: "#fff" }}
-              >
-                {isFlashLightOn? "Torch Off" : "Torch On" }
-              </WebcamTorchButton>
               <WebcamButton
                 onClick={startWebcam}
                 style={{ backgroundColor: "#333", color: "#fff" }}
@@ -192,7 +186,15 @@ const WebcamCapture = () => {
               </WebcamButton>
             </>
           ) : (
-            <WebcamButton onClick={captureImage}>Capture Image</WebcamButton>
+            <>
+              <WebcamTorchButton
+                onClick={toggleTorch}
+                style={{ backgroundColor: "#333", color: "#fff" }}
+              >
+                {isFlashLightOn ? "Torch Off" : "Torch On"}
+              </WebcamTorchButton>
+              <WebcamButton onClick={captureImage}>Capture Image</WebcamButton>
+            </>
           )}
         </>
       )}
