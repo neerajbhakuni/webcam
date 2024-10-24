@@ -35,6 +35,22 @@ const WebcamCanvas = styled.canvas`
   display: none; /* Hide canvas by default */
 `;
 
+
+const WebcamTorchButton = styled.button`
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  color: #333;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
 const WebcamButton = styled.button`
   position: absolute;
   bottom: 20px;
@@ -162,12 +178,12 @@ const WebcamCapture = () => {
           <WebcamCanvas ref={canvasRef} />
           {!videoRef.current ? (
             <>
-              <WebcamButton
+              <WebcamTorchButton
                 onClick={toggleTorch}
                 style={{ backgroundColor: "#333", color: "#fff" }}
               >
                 {isFlashLightOn? "Torch Off" : "Torch On" }
-              </WebcamButton>
+              </WebcamTorchButton>
               <WebcamButton
                 onClick={startWebcam}
                 style={{ backgroundColor: "#333", color: "#fff" }}
