@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import Webcam from "react-webcam";
 
 import styled from "styled-components";
 

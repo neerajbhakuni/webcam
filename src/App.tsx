@@ -1,6 +1,6 @@
-import WebcamCapture from "./components/WebcamCapture";
+import WebcamCap from "./components/Webcam";
 import "./styles.css";
 
 export default function App() {
-  return <WebcamCapture />;
+  return <WebcamCap />;
 }
